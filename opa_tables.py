@@ -19,11 +19,11 @@ class OpaPropertiesPublic(SQLModel, table=True):
     street_name: str
     house_number: str
     location: str
-    owner_1: str
+    owner_1: str | None
     owner_2: str | None
     the_geom: str | None
     the_geom_webmercator: str | None
-    assessment_date: date | None
+    assessment_date: datetime | None
     basements: str | None
     beginning_point: str | None
     book_and_page: str | None
@@ -65,9 +65,9 @@ class OpaPropertiesPublic(SQLModel, table=True):
     other_building: str | None
     parcel_shape: str | None
     quality_grade: str | None
-    recording_date: date | None
+    recording_date: datetime | None
     registry_number: str | None
-    sale_date: date | None
+    sale_date: str | None  # '202-02-11T04:56:00Z'
     sale_price: float | None
     separate_utilities: str | None
     sewer: str | None
@@ -111,7 +111,7 @@ class BusinessLicenses(SQLModel, table=True):
     initialissuedate: str
     mostrecentissuedate: str
     licensestatus: str
-    legalname: str
+    legalname: str | None
     addressobjectid: float | None
     the_geom_webmercator: str | None
     address: str | None
@@ -158,11 +158,13 @@ class RttSummary(SQLModel, table=True):
     objectid: float = Field(primary_key=True)
     record_id: str = Field(primary_key=True)
     property_count: float
-    recording_date: datetime
+    recording_date: datetime | None
     document_id: float
     the_geom: str
     address_low: int | None
-    display_date: datetime | None
+    display_date: (
+        str | None
+    )  # '171-10-19T05:00:00Z', '218-03-28T05:00:00Z', '118-06-01T05:00:00Z',
     document_type: str | None
     street_name: str | None
     street_address: str | None
@@ -188,7 +190,7 @@ class RttSummary(SQLModel, table=True):
     common_level_ratio: float | None
     condo_name: str | None
     discrepancy: str | None
-    document_date: datetime | None
+    document_date: str | None  # '171-10-19T05:00:00Z'
     fair_market_value: float | None
     legal_remarks: str | None
     local_tax_amount: float | None

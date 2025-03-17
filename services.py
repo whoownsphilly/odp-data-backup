@@ -37,6 +37,7 @@ class OpaService:
         save_to_csv: bool = True,
         save_to_sqlite: bool = True,
         where_str: str | None = None,
+        debug_mode: bool = False,
     ):
         # Define the path to the folder you want to create
         if save_to_csv:
@@ -52,7 +53,6 @@ class OpaService:
         where_sql = f"and {where_str}" if where_str else ""
 
         for value in split_values:
-            print(f"Downloading from {table} for {distinct_sql}: {value}")
             if value is None:
                 sql_equivalency_value = " is null"
             else:
@@ -61,23 +61,34 @@ class OpaService:
             response = make_request(
                 f"SELECT * from {table} where {distinct_sql} {sql_equivalency_value} {where_sql}"
             )
+            num_rows = len(response["rows"])
+            print(
+                f"Downloaded from {table} for {distinct_sql}: {value} {where_sql} ({num_rows} rows)"
+            )
             if save_to_csv:
                 pd.DataFrame(response["rows"]).to_csv(
                     f"csvs/{table}/{table}_{split_by_field}_{value}.csv", index=False
                 )
             if save_to_sqlite:
-                self.load_response_to_sqlite(response, table=table)
+                self.load_response_to_sqlite(
+                    response, table=table, debug_mode=debug_mode
+                )
 
-    def load_response_to_sqlite(self, response: dict[str, Any], /, *, table: str):
+    def load_response_to_sqlite(
+        self, response: dict[str, Any], /, *, table: str, debug_mode: bool
+    ):
         OpaClass = self.get_class_from_table_name(table)
-        # self.session.add_all([OpaClass(**row) for row in response["rows"]])
-        for row in response["rows"]:
-            try:
-                self.session.add(OpaClass.validate(row))
-                self.session.commit()
-            except Exception as exc:
-                print(exc)
-                breakpoint()
+        if debug_mode:
+            for row in response["rows"]:
+                try:
+                    self.session.add(OpaClass.validate(row))
+                    self.session.commit()
+                except Exception as exc:
+                    print(exc)
+                    breakpoint()
+        else:
+            self.session.add_all([OpaClass.validate(row) for row in response["rows"]])
+            self.session.commit()
 
     def get_class_from_table_name(self, table_name: str) -> SQLModel:
         # A janky way to get all the classes defined in opa_tables
