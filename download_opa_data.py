@@ -19,6 +19,7 @@ def cli():
 @click.option("--csv-split-col", required=True)
 @click.option("--where-str", default=None)
 @click.option("--save-to-csv/--skip-save-to-csv", default=True, show_default=True)
+@click.option("--debug-mode/--do-not-debug", default=False, show_default=True)
 @click.option("--save-to-sqlite/--skip-save-to-sqlite", default=True, show_default=True)
 def by_col(
     table: str,
@@ -26,6 +27,7 @@ def by_col(
     db_filepath: str,
     save_to_csv: bool,
     save_to_sqlite: bool,
+    debug_mode: bool,
     where_str: str | None = None,
 ):
     """A command to download all data from a table, with separate CSVs per split-by column"""
@@ -46,14 +48,17 @@ def by_col(
         save_to_csv=save_to_csv,
         save_to_sqlite=save_to_sqlite,
         where_str=where_str,
+        debug_mode=debug_mode,
     )
 
 
 @cli.command
 @click.option("--table", required=True)
 @click.option("--db-filepath", default="open_data_philly.db", show_default=True)
+@click.option("--where-str", default=None)
 @click.option("--save-to-csv/--skip-save-to-csv", default=True, show_default=True)
 @click.option("--save-to-sqlite/--skip-save-to-sqlite", default=True, show_default=True)
+@click.option("--debug-mode/--do-not-debug", default=False, show_default=True)
 @click.option(
     "--split-by",
     required=True,
@@ -66,6 +71,8 @@ def by_datetime(
     db_filepath: str,
     save_to_csv: bool,
     save_to_sqlite: bool,
+    debug_mode: bool,
+    where_str: str | None = None,
 ):
     """A command to download all data from a table, with separate CSVs per column and time-based split-by option"""
     response = make_request(f"SELECT * from {table} limit 0")
@@ -105,6 +112,8 @@ def by_datetime(
         table=table,
         save_to_csv=save_to_csv,
         save_to_sqlite=save_to_sqlite,
+        where_str=where_str,
+        debug_mode=debug_mode,
     )
 
 
