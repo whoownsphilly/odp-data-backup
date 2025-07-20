@@ -160,7 +160,7 @@ class RttSummary(SQLModel, table=True):
     property_count: float
     recording_date: datetime | None
     document_id: float
-    the_geom: str
+    the_geom: str | None
     address_low: int | None
     display_date: (
         str | None
