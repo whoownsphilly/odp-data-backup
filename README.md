@@ -27,7 +27,7 @@ The `download_opa_data.py` script provides several commands for downloading data
 Downloads data split by a specific column value (e.g., zip codes, categories).
 
 ```bash
-uv run python download_opa_data.py by-col \
+uv run python -m odp_data_backups.download_opa_data by-col \
   --table opa_properties_public \
   --csv-split-col zip_code \
   --where-str "market_value > 100000" \
@@ -48,7 +48,7 @@ uv run python download_opa_data.py by-col \
 Downloads data split by date/time columns (currently supports year granularity).
 
 ```bash
-uv run python download_opa_data.py by-datetime \
+uv run python -m odp_data_backups.download_opa_data by-datetime \
   --table business_licenses \
   --split-by initialissuedate year \
   --where-str "licensetype = 'Rental'" \
@@ -69,7 +69,7 @@ uv run python download_opa_data.py by-datetime \
 Creates individual JSON files for each row in a table (limited to 10 rows for testing).
 
 ```bash
-uv run python download_opa_data.py json-file-per-row \
+uv run python -m odp_data_backups.download_opa_data json-file-per-row \
   --table opa_properties_public \
   --column objectid
 ```
@@ -78,7 +78,7 @@ uv run python download_opa_data.py json-file-per-row \
 Specialized command for downloading car/pedestrian stops data with High Injury Network (HIN) analysis.
 
 ```bash
-uv run python download_opa_data.py download-car-ped-stops-relation-to-hin \
+uv run python -m odp_data_backups.download_opa_data download-car-ped-stops-relation-to-hin \
   --dist-from-hin-threshold 0.0001
 ```
 
@@ -98,28 +98,35 @@ All data is sourced from [OpenDataPhilly](https://opendataphilly.org/), which pr
 
 ### Local Development
 ```bash
-# Install dependencies
-uv sync
+# Install the project in editable mode
+uv pip install -e .
 
 # Example: Download property data by zip code
-uv run python download_opa_data.py by-col \
+uv run python -m odp_data_backups.download_opa_data by-col \
   --table opa_properties_public \
   --csv-split-col zip_code \
   --skip-save-to-csv
 
 # Example: Download business licenses by year
-uv run python download_opa_data.py by-datetime \
+uv run python -m odp_data_backups.download_opa_data by-datetime \
   --table business_licenses \
   --split-by initialissuedate year \
   --where-str "licensetype = 'Rental'" \
   --skip-save-to-csv
 
 # Example: Download RTT summary data by year with filtering
-uv run python download_opa_data.py by-datetime \
+uv run python -m odp_data_backups.download_opa_data by-datetime \
   --table rtt_summary \
   --split-by recording_date year \
   --where-str "document_type IN ('DEED', 'DEED_SHERIFF', 'DEED OF CONDEMNATION', 'DEED LAND BANK')" \
   --skip-save-to-csv
+```
+
+### Alternative: Using the CLI script
+After installation, you can also use the CLI script directly:
+
+```bash
+uv run download-opa-data by-col --table opa_properties_public --csv-split-col zip_code
 ```
 
 ### Output Options
