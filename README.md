@@ -8,12 +8,16 @@ OpenDataPhilly provides access to hundreds of datasets from the City of Philadel
 
 ## What This Repository Does
 
-### Data Collection
-The repository downloads and processes any dataset from OpenDataPhilly, here are some examples:
+### Available Tables
+The following tables are currently available (as they have had their schemas defined):
 
-- **OPA Properties Public**: Property assessment data split by zip code
-- **Business Licenses**: Rental business licenses filtered by license type and issue date
-- **RTT Summary**: Real estate transfer tax data for deeds and related documents
+- **`opa_properties_public`**: Property assessment data including market values, building details, ownership information, and geographic data
+- **`business_licenses`**: Business license information including rental licenses, expiration dates, and contact details
+- **`rtt_summary`**: Real estate transfer tax records with property transactions, document types, and tax amounts
+- **`car_ped_stops`**: Car and pedestrian stop data from law enforcement including location, demographics, and stop details
+- **`shootings`**: Shooting incident data with location, demographics, and outcome information
+
+Each table contains comprehensive data fields relevant to its domain, including geographic coordinates, timestamps, and detailed categorical information.
 
 ## CLI Commands
 
@@ -23,7 +27,7 @@ The `download_opa_data.py` script provides several commands for downloading data
 Downloads data split by a specific column value (e.g., zip codes, categories).
 
 ```bash
-poetry run python download_opa_data.py by-col \
+uv run python download_opa_data.py by-col \
   --table opa_properties_public \
   --csv-split-col zip_code \
   --where-str "market_value > 100000" \
@@ -44,7 +48,7 @@ poetry run python download_opa_data.py by-col \
 Downloads data split by date/time columns (currently supports year granularity).
 
 ```bash
-poetry run python download_opa_data.py by-datetime \
+uv run python download_opa_data.py by-datetime \
   --table business_licenses \
   --split-by initialissuedate year \
   --where-str "licensetype = 'Rental'" \
@@ -65,7 +69,7 @@ poetry run python download_opa_data.py by-datetime \
 Creates individual JSON files for each row in a table (limited to 10 rows for testing).
 
 ```bash
-poetry run python download_opa_data.py json-file-per-row \
+uv run python download_opa_data.py json-file-per-row \
   --table opa_properties_public \
   --column objectid
 ```
@@ -74,7 +78,7 @@ poetry run python download_opa_data.py json-file-per-row \
 Specialized command for downloading car/pedestrian stops data with High Injury Network (HIN) analysis.
 
 ```bash
-poetry run python download_opa_data.py download-car-ped-stops-relation-to-hin \
+uv run python download_opa_data.py download-car-ped-stops-relation-to-hin \
   --dist-from-hin-threshold 0.0001
 ```
 
@@ -89,29 +93,29 @@ All data is sourced from [OpenDataPhilly](https://opendataphilly.org/), which pr
 ## Usage
 
 ### Prerequisites
-- Python 3.10.4
-- Poetry for dependency management
+- Python 3.10.4 or higher
+- uv for dependency management
 
 ### Local Development
 ```bash
 # Install dependencies
-poetry install
+uv sync
 
 # Example: Download property data by zip code
-poetry run python download_opa_data.py by-col \
+uv run python download_opa_data.py by-col \
   --table opa_properties_public \
   --csv-split-col zip_code \
   --skip-save-to-csv
 
 # Example: Download business licenses by year
-poetry run python download_opa_data.py by-datetime \
+uv run python download_opa_data.py by-datetime \
   --table business_licenses \
   --split-by initialissuedate year \
   --where-str "licensetype = 'Rental'" \
   --skip-save-to-csv
 
 # Example: Download RTT summary data by year with filtering
-poetry run python download_opa_data.py by-datetime \
+uv run python download_opa_data.py by-datetime \
   --table rtt_summary \
   --split-by recording_date year \
   --where-str "document_type IN ('DEED', 'DEED_SHERIFF', 'DEED OF CONDEMNATION', 'DEED LAND BANK')" \

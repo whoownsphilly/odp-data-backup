@@ -19,16 +19,18 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10.4' # Specify the Python version you need
-      - name: Install poetry
+      - name: Install uv
         run: |
-          pip install --disable-pip-version-check poetry==1.5.1
-          poetry install --remove-untracked
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: uv sync
       - name: Download opa_properties_public
-        run: poetry run python download_opa_data.py by-col --table opa_properties_public --csv-split-col zip_code --skip-save-to-csv
+        run: uv run python download_opa_data.py by-col --table opa_properties_public --csv-split-col zip_code --skip-save-to-csv
       - name: download rental business_licenses
-        run: poetry run python download_opa_data.py by-datetime --table business_licenses --split-by initialissuedate year --where-str "licensetype = 'Rental'" --skip-save-to-csv
+        run: uv run python download_opa_data.py by-datetime --table business_licenses --split-by initialissuedate year --where-str "licensetype = 'Rental'" --skip-save-to-csv
       - name: rtt_summary
-        run: poetry run python download_opa_data.py by-datetime --table rtt_summary --split-by recording_date year --skip-save-to-csv --where-str "document_type IN ('DEED', 'DEED_SHERIFF', 'DEED OF CONDEMNATION', 'DEED LAND BANK')"
+        run: uv run python download_opa_data.py by-datetime --table rtt_summary --split-by recording_date year --skip-save-to-csv --where-str "document_type IN ('DEED', 'DEED_SHERIFF', 'DEED OF CONDEMNATION', 'DEED LAND BANK')"
       - name: Create Release Tag
         run: |
           git config --global user.name 'GitHub Actions'
