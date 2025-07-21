@@ -5,7 +5,8 @@ from typing import Any
 import pandas as pd
 from sqlmodel import SQLModel, create_engine, Session
 from sqlmodel.main import SQLModelMetaclass
-import opa_tables
+
+from . import opa_tables
 
 
 def make_request(sql):

@@ -1,11 +1,9 @@
 import click
-from datetime import datetime
-import pandas as pd
 import json
 from pathlib import Path
 
-from services import OpaService
-from services import make_request
+from .services import OpaService
+from .services import make_request
 
 
 @click.group
