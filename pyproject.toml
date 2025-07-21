@@ -18,7 +18,7 @@ dependencies = [
 download-opa-data = "odp_data_backups.download_opa_data:cli"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/odp-data-backups"]
+packages = ["src/odp_data_backups"]
 
 [build-system]
 requires = ["hatchling"]
