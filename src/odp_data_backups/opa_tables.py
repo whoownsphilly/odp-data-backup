@@ -92,6 +92,9 @@ class OpaPropertiesPublic(SQLModel, table=True):
     zoning: str | None
     building_code_new: str | None
     building_code_description_new: str | None
+    # Computed from the_geom
+    lat: float | None
+    lng: float | None
 
 
 class BusinessLicenses(SQLModel, table=True):
@@ -145,6 +148,9 @@ class BusinessLicenses(SQLModel, table=True):
     geocode_x: float | None
     geocode_y: float | None
     council_district: str | None
+    # Computed from the_geom
+    lat: float | None
+    lng: float | None
 
 
 class RttSummary(SQLModel, table=True):
@@ -206,6 +212,9 @@ class RttSummary(SQLModel, table=True):
     street_postdir: str | None
     unit_num: str | None
     zip_code: str | None
+    # Computed from the_geom
+    lat: float | None
+    lng: float | None
 
 
 class CarPedStops(SQLModel, table=True):
@@ -246,6 +255,9 @@ class CarPedStops(SQLModel, table=True):
     point_y: float | None
     the_geom: str | None  # Store as WKT (Well-Known Text)
     the_geom_webmercator: str | None  # Store as WKT (Well-Known Text)
+    # Computed from the_geom
+    lat: float | None
+    lng: float | None
 
     @validator("datetimeoccur", pre=True)
     def parse_datetimeoccur(cls, value):
@@ -280,6 +292,9 @@ class Shootings(SQLModel, table=True):
     inside: int | None
     outside: int | None
     fatal: int | None
+    # Computed from the_geom
+    lat: float | None
+    lng: float | None
 
     @validator("date_", pre=True)
     def parse_datetimeoccur(cls, value):

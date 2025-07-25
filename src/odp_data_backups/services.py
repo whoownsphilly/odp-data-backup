@@ -39,6 +39,7 @@ class OpaService:
         save_to_sqlite: bool = True,
         where_str: str | None = None,
         debug_mode: bool = False,
+        add_lat_lng: bool = True,
     ):
         # Define the path to the folder you want to create
         if save_to_csv:
@@ -60,7 +61,7 @@ class OpaService:
                 sql_equivalency_value = f" = '{value}'"
 
             response = make_request(
-                f"SELECT * from {table} where {distinct_sql} {sql_equivalency_value} {where_sql}"
+                f"SELECT *, st_x(the_geom) as lng, st_y(the_geom) as lat from {table} where {distinct_sql} {sql_equivalency_value} {where_sql}"
             )
             num_rows = len(response["rows"])
             print(
