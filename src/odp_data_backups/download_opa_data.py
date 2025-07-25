@@ -16,6 +16,7 @@ def cli():
 @click.option("--table", required=True)
 @click.option("--csv-split-col", required=True)
 @click.option("--where-str", default=None)
+@click.option("--add-lat-lng/--do-not-add-lat-lng", default=True, show_default=True)
 @click.option("--save-to-csv/--skip-save-to-csv", default=True, show_default=True)
 @click.option("--debug-mode/--do-not-debug", default=False, show_default=True)
 @click.option("--save-to-sqlite/--skip-save-to-sqlite", default=True, show_default=True)
@@ -26,6 +27,7 @@ def by_col(
     save_to_csv: bool,
     save_to_sqlite: bool,
     debug_mode: bool,
+    add_lat_lng: bool,
     where_str: str | None = None,
 ):
     """A command to download all data from a table, with separate CSVs per split-by column"""
@@ -47,6 +49,7 @@ def by_col(
         save_to_sqlite=save_to_sqlite,
         where_str=where_str,
         debug_mode=debug_mode,
+        add_lat_lng=add_lat_lng,
     )
 
 
@@ -56,6 +59,7 @@ def by_col(
 @click.option("--where-str", default=None)
 @click.option("--save-to-csv/--skip-save-to-csv", default=True, show_default=True)
 @click.option("--save-to-sqlite/--skip-save-to-sqlite", default=True, show_default=True)
+@click.option("--add-lat-lng/--do-not-add-lat-lng", default=True, show_default=True)
 @click.option("--debug-mode/--do-not-debug", default=False, show_default=True)
 @click.option(
     "--split-by",
@@ -70,6 +74,7 @@ def by_datetime(
     save_to_csv: bool,
     save_to_sqlite: bool,
     debug_mode: bool,
+    add_lat_lng: bool,
     where_str: str | None = None,
 ):
     """A command to download all data from a table, with separate CSVs per column and time-based split-by option"""
@@ -111,6 +116,7 @@ def by_datetime(
         save_to_csv=save_to_csv,
         save_to_sqlite=save_to_sqlite,
         where_str=where_str,
+        add_lat_lng=add_lat_lng,
         debug_mode=debug_mode,
     )
 
