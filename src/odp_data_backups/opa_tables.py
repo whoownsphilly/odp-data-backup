@@ -316,7 +316,7 @@ class Violations(SQLModel, table=True):
     violationnumber: str = Field(primary_key=True)
     violationcode: str | None
     addressobjectid: str | None
-    violationdate: datetime
+    violationdate: datetime | None
     posse_jobid: str | None
     violationstatus: str | None
     casetype: str | None
