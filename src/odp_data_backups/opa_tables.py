@@ -302,3 +302,53 @@ class Shootings(SQLModel, table=True):
             # Assuming the string is in ISO 8601 format, remove 'Z' if present and convert
             return datetime.fromisoformat(value.rstrip("Z"))
         return value
+
+
+class Violations(SQLModel, table=True):
+    __tablename__ = "violations"
+
+    @property
+    def split_by(self) -> tuple[str, str]:
+        return ("violationdate", "year")
+
+    cartodb_id: int = Field(primary_key=True)
+    objectid: int = Field(primary_key=True)
+    violationnumber: str = Field(primary_key=True)
+    violationcode: str | None
+    addressobjectid: str | None
+    violationdate: datetime
+    posse_jobid: str | None
+    violationstatus: str | None
+    casetype: str | None
+    the_geom: str | None
+    the_geom_webmercator: str | None
+    parcel_id_num: str | None
+    casenumber: str | None
+
+    casecreateddate: datetime | None
+    casecompleteddate: datetime | None
+
+    council_district: str | None
+    casestatus: str | None
+    caseresponsibility: str | None
+    caseprioritydesc: str | None
+
+    violationcodetitle: str | None
+    violationresolutiondate: datetime | None
+    violationresolutioncode: str | None
+    mostrecentinvestigation: datetime | None
+
+    publicnov: str | None
+    opa_account_num: str | None
+    address: str | None
+    unit_type: str | None
+    unit_num: str | None
+    zip: str | None
+    censustract: str | None
+    opa_owner: str | None
+    systemofrecord: str | None
+
+    geocode_x: float | None
+    geocode_y: float | None
+    lng: float | None
+    lat: float | None

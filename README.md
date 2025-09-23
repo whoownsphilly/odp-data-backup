@@ -16,6 +16,7 @@ The following tables are currently available (as they have had their schemas def
 - **`rtt_summary`**: Real estate transfer tax records with property transactions, document types, and tax amounts
 - **`car_ped_stops`**: Car and pedestrian stop data from law enforcement including location, demographics, and stop details
 - **`shootings`**: Shooting incident data with location, demographics, and outcome information
+- **`violations`**: L&I Violations based on followed up 311 Complaints
 
 Each table contains comprehensive data fields relevant to its domain, including geographic coordinates, timestamps, and detailed categorical information.
 
