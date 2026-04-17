@@ -1,2 +1,6 @@
-dist
+dist/
+csvs/
 open_data_philly.db*
+__pycache__/
+*.egg-info/
+.venv/
