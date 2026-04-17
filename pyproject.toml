@@ -1,24 +1,11 @@
 [project]
-name = "odp-data-backups"
-version = "0.1.0"
-description = "OpenDataPhilly database backup tool"
-authors = [
-    {name = "Stephen Suffian", email = "stephen.suffian@pm.me"}
-]
-readme = "README.md"
+name = "wop-odp-backups"
+version = "0.2.0"
+description = "Who Owns Philly — monthly SQLite database of OpenDataPhilly datasets."
 requires-python = ">=3.10.4"
 dependencies = [
-    "click>=8.1.7",
-    "pandas>=2.1.1",
-    "requests>=2.31.0",
-    "sqlmodel>=0.0.16",
+    "open-data-philly-downloader>=0.1,<1.0",
 ]
-
-[project.scripts]
-download-opa-data = "odp_data_backups.download_opa_data:cli"
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/odp_data_backups"]
 
 [build-system]
 requires = ["hatchling"]
