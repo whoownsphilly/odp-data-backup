@@ -1,94 +1,41 @@
 # OpenDataPhilly Database Backups
 
-This project creates a monthly SQLite backup of selected
-[OpenDataPhilly](https://opendataphilly.org/) tables. It also includes a generic
-CLI that can download any table exposed by Philadelphia's Carto SQL API.
+This repository creates a monthly SQLite backup of selected
+[OpenDataPhilly](https://opendataphilly.org/) datasets and publishes it as a
+dated GitHub release.
 
-## Why the downloader lives here
+The generic downloading code lives in
+[whoownsphilly/open-data-philly-downloader](https://github.com/whoownsphilly/open-data-philly-downloader).
+This repository contains only the backup configuration and release workflow.
 
-SQLite types are derived at runtime from Carto's field metadata. Rows are not
-validated against hand-written Python models, so a harmless upstream change
-such as an integer appearing in a text-affinity column cannot stop a backup.
+## Included datasets
 
-The downloader also:
+- `opa_properties_public`, split by ZIP code
+- rental records from `business_licenses`, split by year
+- `violations` since 2020, split by year
+- deed records from `rtt_summary`, split by year
 
-- retrieves large datasets in configurable pages;
-- retries rate limits and transient server failures;
-- supports arbitrary tables and optional SQL filters;
-- supports whole-table, column-split, and date-split downloads;
-- optionally writes CSV alongside SQLite;
-- JSON-encodes nested values that SQLite cannot bind directly;
-- can create indexes after loading finishes;
-- validates identifiers used as table and column names.
+The workflow pins the downloader to an exact Git commit for reproducible runs.
+It writes into `open_data_philly.next.db`, creates useful indexes, verifies the
+database with SQLite's integrity checker, and only then publishes it as
+`open_data_philly.db`.
 
-## Install
+## Run locally
 
-Python 3.10.4 or newer and [uv](https://docs.astral.sh/uv/) are required.
+Install the pinned downloader dependency:
 
 ```bash
-uv sync --frozen
+uv sync
 ```
 
-## Download any table
+Then run any of the commands used in `.github/workflows/main.yml`, for example:
 
 ```bash
-uv run --frozen odp-download table \
+uv run odp-download table \
   --table shootings \
-  --db-filepath open_data_philly.db \
-  --index date_
+  --db-filepath open_data_philly.db
 ```
 
-Add a Carto SQL filter with `--where`:
-
-```bash
-uv run --frozen odp-download table \
-  --table violations \
-  --where "violationdate >= '2025-01-01'"
-```
-
-Use `--csv-path violations.csv` to produce CSV output as well. SQLite output is
-always enabled because it is this project's primary artifact.
-
-## Split large downloads
-
-Splitting limits the amount of upstream data handled by any one query. Every
-split is still paginated, so a split larger than Carto's response limit is not
-truncated.
-
-By a column's distinct values:
-
-```bash
-uv run --frozen odp-download by-col \
-  --table opa_properties_public \
-  --csv-split-col zip_code \
-  --index zip_code
-```
-
-By year, month, or day:
-
-```bash
-uv run --frozen odp-download by-datetime \
-  --table rtt_summary \
-  --split-by recording_date year \
-  --where "document_type IN ('DEED', 'DEED_SHERIFF')" \
-  --index recording_date
-```
-
-Pass `--csv-dir csvs` to either split command to write one CSV per split. Use
-`--page-size` to tune the default 25,000-row page size and `--endpoint` to use a
-different compatible Carto SQL endpoint.
-
-Run `uv run odp-download COMMAND --help` for all options.
-
-## Automated backup
-
-The GitHub Actions workflow downloads the configured tables into a temporary
-database, creates indexes, runs SQLite's integrity check, and only then renames
-the file and publishes a dated GitHub release. Dependencies are resolved from
-the committed `uv.lock` file.
-
-## Tests
-
-```bash
-uv run --extra test pytest
-```
+The shared downloader supports whole-table downloads, column and date splits,
+pagination, retries, optional CSV output, SQLite indexes, and Carto SQL filters.
+Run `uv run odp-download --help` for the complete command list.
