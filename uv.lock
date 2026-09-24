@@ -195,7 +195,7 @@ wheels = [
 [[package]]
 name = "open-data-philly-downloader"
 version = "0.2.0"
-source = { git = "https://github.com/whoownsphilly/open-data-philly-downloader?rev=69dccd06d0c0dd1b49229291d86120726ecaee45#69dccd06d0c0dd1b49229291d86120726ecaee45" }
+source = { git = "https://github.com/whoownsphilly/open-data-philly-downloader?rev=fc8dca974358fbe4abeb16ab445676f812ce7204#fc8dca974358fbe4abeb16ab445676f812ce7204" }
 dependencies = [
     { name = "click" },
     { name = "requests" },
@@ -234,4 +234,4 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "open-data-philly-downloader", git = "https://github.com/whoownsphilly/open-data-philly-downloader?rev=69dccd06d0c0dd1b49229291d86120726ecaee45" }]
+requires-dist = [{ name = "open-data-philly-downloader", git = "https://github.com/whoownsphilly/open-data-philly-downloader?rev=fc8dca974358fbe4abeb16ab445676f812ce7204" }]

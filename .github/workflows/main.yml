@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  DOWNLOADER_SOURCE: git+https://github.com/whoownsphilly/open-data-philly-downloader@69dccd06d0c0dd1b49229291d86120726ecaee45
+  DOWNLOADER_SOURCE: git+https://github.com/whoownsphilly/open-data-philly-downloader@fc8dca974358fbe4abeb16ab445676f812ce7204
 
 jobs:
   upload-odp-data:

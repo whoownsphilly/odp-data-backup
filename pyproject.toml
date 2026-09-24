@@ -4,7 +4,7 @@ version = "0.2.0"
 description = "Who Owns Philly — monthly SQLite database of OpenDataPhilly datasets."
 requires-python = ">=3.10.4"
 dependencies = [
-    "open-data-philly-downloader @ git+https://github.com/whoownsphilly/open-data-philly-downloader@69dccd06d0c0dd1b49229291d86120726ecaee45",
+    "open-data-philly-downloader @ git+https://github.com/whoownsphilly/open-data-philly-downloader@fc8dca974358fbe4abeb16ab445676f812ce7204",
 ]
 
 [tool.uv]
