@@ -238,4 +238,4 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "open-data-philly-downloader", specifier = "==0.2.1" }]
+requires-dist = [{ name = "open-data-philly-downloader" }]
