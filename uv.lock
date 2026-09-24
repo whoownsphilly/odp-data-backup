@@ -194,11 +194,15 @@ wheels = [
 
 [[package]]
 name = "open-data-philly-downloader"
-version = "0.2.0"
-source = { git = "https://github.com/whoownsphilly/open-data-philly-downloader?rev=fc8dca974358fbe4abeb16ab445676f812ce7204#fc8dca974358fbe4abeb16ab445676f812ce7204" }
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1f/12/0b3509fdbd9fb5a4e38e3718f8416a47476b8e68cbd61db44633f70bc931/open_data_philly_downloader-0.2.1.tar.gz", hash = "sha256:6f4955044869760da07376cc6725f6822b2cddb7fed57b42259b1281377e3b5f", size = 29057, upload-time = "2026-09-24T15:34:52.785Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fc/44/7efe28b81969a24c19a035157fbf76c984bafec1380df9f61c9f4b53481d/open_data_philly_downloader-0.2.1-py3-none-any.whl", hash = "sha256:4f696fd02bb0231322eb160f38fcb5f8317119d528ccc95fc68b111e1ebfdb27", size = 9607, upload-time = "2026-09-24T15:34:51.568Z" },
 ]
 
 [[package]]
@@ -234,4 +238,4 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "open-data-philly-downloader", git = "https://github.com/whoownsphilly/open-data-philly-downloader?rev=fc8dca974358fbe4abeb16ab445676f812ce7204" }]
+requires-dist = [{ name = "open-data-philly-downloader", specifier = "==0.2.1" }]
