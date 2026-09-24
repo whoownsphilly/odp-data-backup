@@ -5,7 +5,7 @@ This repository creates a monthly SQLite backup of selected
 dated GitHub release.
 
 The generic downloading code lives in
-[whoownsphilly/open-data-philly-downloader](https://github.com/whoownsphilly/open-data-philly-downloader).
+[phillycivic/open-data-philly-downloader](https://github.com/phillycivic/open-data-philly-downloader).
 This repository contains only the backup configuration and release workflow.
 
 ## Included datasets
@@ -15,7 +15,7 @@ This repository contains only the backup configuration and release workflow.
 - `violations` since 2020, split by year
 - deed records from `rtt_summary`, split by year
 
-The workflow pins the downloader to an exact Git commit for reproducible runs.
+The workflow pins the downloader to an exact PyPI version for reproducible runs.
 It writes into `open_data_philly.next.db`, creates useful indexes, verifies the
 database with SQLite's integrity checker, and only then publishes it as
 `open_data_philly.db`.
@@ -32,7 +32,7 @@ Then run any of the commands used in `.github/workflows/main.yml`, for example:
 
 ```bash
 uv run odp-download table \
-  --table shootings \
+  --table rtt_summary \
   --db-filepath open_data_philly.db
 ```
 
