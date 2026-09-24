@@ -1,11 +1,25 @@
 [project]
 name = "wop-odp-backups"
-version = "0.2.0"
-description = "Who Owns Philly — monthly SQLite database of OpenDataPhilly datasets."
+version = "0.3.0"
+description = "Generic OpenDataPhilly downloader and monthly SQLite backup."
+readme = "README.md"
 requires-python = ">=3.10.4"
 dependencies = [
-    "open-data-philly-downloader>=0.1,<1.0",
+    "click>=8.1,<9",
+    "requests>=2.31,<3",
 ]
+
+[project.scripts]
+odp-download = "odp_data_backups.cli:cli"
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/odp_data_backups"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [build-system]
 requires = ["hatchling"]
